@@ -5,6 +5,7 @@ export const vi: Translation = {
 	[Key.home]: "Trang chủ",
 	[Key.about]: "Giới thiệu",
 	[Key.archive]: "Kho bài",
+	[Key.links]: "Liên kết",
 	[Key.search]: "Tìm kiếm",
 
 	[Key.tags]: "Thẻ",
@@ -35,4 +36,8 @@ export const vi: Translation = {
 	[Key.author]: "Tác giả",
 	[Key.publishedAt]: "Đăng vào lúc",
 	[Key.license]: "Giấy phép bản quyền",
+
+	[Key.paginationPrevious]: "Trước",
+	[Key.paginationNext]: "Tiếp theo",
+	[Key.paginationPage]: "Trang {page}",
 };

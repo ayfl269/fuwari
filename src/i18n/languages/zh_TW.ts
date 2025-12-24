@@ -5,6 +5,7 @@ export const zh_TW: Translation = {
 	[Key.home]: "首頁",
 	[Key.about]: "關於",
 	[Key.archive]: "彙整",
+	[Key.links]: "連結",
 	[Key.search]: "搜尋",
 
 	[Key.tags]: "標籤",
@@ -35,4 +36,8 @@ export const zh_TW: Translation = {
 	[Key.author]: "作者",
 	[Key.publishedAt]: "發佈於",
 	[Key.license]: "許可協議",
+
+	[Key.paginationPrevious]: "上一頁",
+	[Key.paginationNext]: "下一頁",
+	[Key.paginationPage]: "第 {page} 頁",
 };

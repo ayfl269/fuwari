@@ -5,6 +5,7 @@ export const es: Translation = {
 	[Key.home]: "Inicio",
 	[Key.about]: "Sobre mí",
 	[Key.archive]: "Archivo",
+	[Key.links]: "Enlaces",
 	[Key.search]: "Buscar",
 
 	[Key.tags]: "Etiquetas",
@@ -35,4 +36,8 @@ export const es: Translation = {
 	[Key.author]: "Autor",
 	[Key.publishedAt]: "Publicado el",
 	[Key.license]: "Licencia",
+
+	[Key.paginationPrevious]: "Anterior",
+	[Key.paginationNext]: "Siguiente",
+	[Key.paginationPage]: "Página {page}",
 };

@@ -1,6 +1,7 @@
 enum I18nKey {
 	home = "home",
 	about = "about",
+	links = "links",
 	archive = "archive",
 	search = "search",
 
@@ -32,6 +33,10 @@ enum I18nKey {
 	author = "author",
 	publishedAt = "publishedAt",
 	license = "license",
+
+	paginationPrevious = "paginationPrevious",
+	paginationNext = "paginationNext",
+	paginationPage = "paginationPage",
 }
 
 export default I18nKey;
