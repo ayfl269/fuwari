@@ -30,6 +30,15 @@ export type SiteConfig = {
 			url?: string;
 		};
 	};
+	background: {
+		enable: boolean;
+		src: string;
+		position?: "top" | "center" | "bottom";
+		size?: "cover" | "contain" | "auto";
+		repeat?: "no-repeat" | "repeat" | "repeat-x" | "repeat-y";
+		attachment?: "fixed" | "scroll" | "local";
+		opacity?: number;
+	};
 	toc: {
 		enable: boolean;
 		depth: 1 | 2 | 3;
@@ -47,7 +56,8 @@ export type Favicon = {
 export enum LinkPreset {
 	Home = 0,
 	Archive = 1,
-	About = 2,
+	Links = 2,
+	About = 3,
 }
 
 export type NavBarLink = {
@@ -100,3 +110,14 @@ export type BlogPostData = {
 export type ExpressiveCodeConfig = {
 	theme: string;
 };
+
+export interface Friend {
+	name: string;
+	avatar: string;
+	description: string;
+	url: string;
+}
+
+export interface FriendsData {
+	friends: Friend[];
+}
