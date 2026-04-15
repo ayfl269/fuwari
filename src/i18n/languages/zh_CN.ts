@@ -5,6 +5,7 @@ export const zh_CN: Translation = {
 	[Key.home]: "主页",
 	[Key.about]: "关于",
 	[Key.archive]: "归档",
+	[Key.links]: "友情链接",
 	[Key.search]: "搜索",
 
 	[Key.tags]: "标签",
@@ -26,6 +27,9 @@ export const zh_CN: Translation = {
 
 	[Key.themeColor]: "主题色",
 
+	[Key.disableBackground]: "禁用背景",
+	[Key.backgroundBlur]: "背景模糊",
+
 	[Key.lightMode]: "亮色",
 	[Key.darkMode]: "暗色",
 	[Key.systemMode]: "跟随系统",
@@ -35,4 +39,8 @@ export const zh_CN: Translation = {
 	[Key.author]: "作者",
 	[Key.publishedAt]: "发布于",
 	[Key.license]: "许可协议",
+
+	[Key.paginationPrevious]: "上一页",
+	[Key.paginationNext]: "下一页",
+	[Key.paginationPage]: "第 {page} 页",
 };

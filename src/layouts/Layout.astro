@@ -11,6 +11,7 @@ import {
 	BANNER_HEIGHT_EXTEND,
 	BANNER_HEIGHT_HOME,
 	DARK_MODE,
+	DEFAULT_BG_BLUR,
 	DEFAULT_THEME,
 	LIGHT_MODE,
 	PAGE_WIDTH,
@@ -19,6 +20,8 @@ import { defaultFavicons } from "../constants/icon";
 import type { Favicon } from "../types/config";
 import { pathsEqual, url } from "../utils/url-utils";
 import "katex/dist/katex.css";
+import { getImage } from "astro:assets";
+import path from "node:path";
 
 interface Props {
 	title?: string;
@@ -70,6 +73,44 @@ const bannerOffsetByPosition = {
 };
 const bannerOffset =
 	bannerOffsetByPosition[siteConfig.banner.position || "center"];
+
+const bgSrc = siteConfig.background.src;
+const isLocal =
+	bgSrc &&
+	!(
+		bgSrc.startsWith("/") ||
+		bgSrc.startsWith("http") ||
+		bgSrc.startsWith("https") ||
+		bgSrc.startsWith("data:")
+	);
+const isPublic = bgSrc?.startsWith("/");
+
+let resolvedBgUrl = "none";
+if (bgSrc) {
+	if (isLocal) {
+		const files = import.meta.glob<ImageMetadata>("../**", {
+			import: "default",
+		});
+		const normalizedPath = path
+			.normalize(path.join("../", bgSrc))
+			.replace(/\\/g, "/");
+		const file = files[normalizedPath];
+		if (file) {
+			const img = (await file()) as ImageMetadata;
+			const optimized = await getImage({ src: img });
+			resolvedBgUrl = `url(${optimized.src})`;
+		} else {
+			console.error(
+				`\n[ERROR] Background image file not found: ${normalizedPath.replace("../", "src/")}`,
+			);
+			resolvedBgUrl = "none";
+		}
+	} else if (isPublic) {
+		resolvedBgUrl = `url(${url(bgSrc)})`;
+	} else {
+		resolvedBgUrl = `url(${bgSrc})`;
+	}
+}
 ---
 
 <!DOCTYPE html>
@@ -110,7 +151,7 @@ const bannerOffset =
 		))}
 
 		<!-- Set the theme before the page is rendered to avoid a flash -->
-		<script is:inline define:vars={{DEFAULT_THEME, LIGHT_MODE, DARK_MODE, AUTO_MODE, BANNER_HEIGHT_EXTEND, PAGE_WIDTH, configHue}}>
+		<script is:inline define:vars={{DEFAULT_THEME, LIGHT_MODE, DARK_MODE, AUTO_MODE, BANNER_HEIGHT_EXTEND, PAGE_WIDTH, configHue, DEFAULT_BG_BLUR}}>
 			// Load the theme from local storage
 			const theme = localStorage.getItem('theme') || DEFAULT_THEME;
 			switch (theme) {
@@ -132,15 +173,94 @@ const bannerOffset =
 			const hue = localStorage.getItem('hue') || configHue;
 			document.documentElement.style.setProperty('--hue', hue);
 
+			// Load the background blur from local storage
+			const blur = localStorage.getItem('backgroundBlur') || DEFAULT_BG_BLUR;
+			document.documentElement.style.setProperty('--bg-blur', `${blur}px`);
+
 			// calculate the --banner-height-extend, which needs to be a multiple of 4 to avoid blurry text
 			let offset = Math.floor(window.innerHeight * (BANNER_HEIGHT_EXTEND / 100));
 			offset = offset - offset % 4;
 			document.documentElement.style.setProperty('--banner-height-extend', `${offset}px`);
+
+			// Background image loading detection
+			const bgUrl = getComputedStyle(document.documentElement).getPropertyValue('--bg-url').trim();
+			const bgEnable = getComputedStyle(document.documentElement).getPropertyValue('--bg-enable').trim();
+			const hideBackground = localStorage.getItem('hideBackground');
+			
+			if (bgUrl && bgUrl !== 'none' && bgEnable === '1' && hideBackground !== 'true') {
+				const img = new Image();
+				const urlMatch = bgUrl.match(/url\(["']?([^"')]+)["']?\)/);
+				if (urlMatch) {
+					img.onload = function() {
+						// 背景图片完全加载后，显示背景并启用卡片透明效果
+						document.body.classList.add('bg-loaded');
+						document.documentElement.style.setProperty('--card-bg', 'var(--card-bg-transparent)');
+						document.documentElement.style.setProperty('--float-panel-bg', 'var(--float-panel-bg-transparent)');
+					};
+					img.onerror = function() {
+						// Keep cards opaque if background image fails to load
+						console.warn('Background image failed to load, keeping cards opaque');
+					};
+					img.src = urlMatch[1];
+				}
+			}
 		</script>
 		<style define:vars={{
 			configHue,
 			'page-width': `${PAGE_WIDTH}rem`,
-		}}></style>  <!-- defines global css variables. This will be applied to <html> <body> and some other elements idk why -->
+			'bg-url': resolvedBgUrl,
+			'bg-enable': siteConfig.background.enable ? '1' : '0',
+			'bg-position': siteConfig.background.position || 'center',
+			'bg-size': siteConfig.background.size || 'cover',
+			'bg-repeat': siteConfig.background.repeat || 'no-repeat',
+			'bg-attachment': siteConfig.background.attachment || 'fixed',
+			'bg-opacity': (siteConfig.background.opacity || 0.3).toString()
+		}}>
+			:root {
+				--bg-url: var(--bg-url);
+				--bg-enable: var(--bg-enable);
+				--bg-position: var(--bg-position);
+				--bg-size: var(--bg-size);
+				--bg-repeat: var(--bg-repeat);
+				--bg-attachment: var(--bg-attachment);
+				--bg-opacity: var(--bg-opacity);
+			}
+			
+			/* Background image configuration */
+			body {
+				--bg-url: var(--bg-url);
+				--bg-enable: var(--bg-enable);
+				--bg-position: var(--bg-position);
+				--bg-size: var(--bg-size);
+				--bg-repeat: var(--bg-repeat);
+				--bg-attachment: var(--bg-attachment);
+				--bg-opacity: var(--bg-opacity);
+			}
+			
+			body::before {
+				content: '' !important;
+				position: fixed !important;
+				top: 0 !important;
+				left: 0 !important;
+				width: 100% !important;
+				height: 100% !important;
+				background-image: var(--bg-url) !important;
+				background-position: var(--bg-position) !important;
+				background-size: var(--bg-size) !important;
+				background-repeat: var(--bg-repeat) !important;
+				background-attachment: var(--bg-attachment) !important;
+				opacity: 0 !important;
+				pointer-events: none !important;
+				z-index: -1 !important;
+				display: block !important;
+				transition: opacity 0.3s ease-in-out !important;
+				filter: blur(var(--bg-blur, 0px));
+			}
+			
+			body.bg-loaded::before {
+				opacity: calc(var(--bg-opacity) * var(--bg-enable)) !important;
+			}
+		</style>  <!-- defines global css variables. This will be applied to <html> <body> and some other elements idk why -->
 
 
 		<slot name="head"></slot>
@@ -364,7 +484,11 @@ function showBanner() {
 }
 
 function init() {
-	// disableAnimation()()		// TODO
+	if (sessionStorage.getItem('skip-page-animation')) {
+		document.body.classList.add('skip-animation');
+		sessionStorage.removeItem('skip-page-animation');
+	}
+
 	loadTheme();
 	loadHue();
 	initCustomScrollbar();
@@ -516,7 +640,7 @@ function createPhotoSwipe() {
 		gallery: ".custom-md img, #post-cover img",
 		pswpModule: () => pswp,
 		closeSVG: '<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#ffffff"><path d="M480-424 284-228q-11 11-28 11t-28-11q-11-11-11-28t11-28l196-196-196-196q-11-11-11-28t11-28q11-11 28-11t28 11l196 196 196-196q11-11 28-11t28 11q11 11 11 28t-11 28L536-480l196 196q11 11 11 28t-11 28q-11 11-28 11t-28-11L480-424Z"/></svg>',
-		zoomSVG: '<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#ffffff"><path d="M340-540h-40q-17 0-28.5-11.5T260-580q0-17 11.5-28.5T300-620h40v-40q0-17 11.5-28.5T380-700q17 0 28.5 11.5T420-660v40h40q17 0 28.5 11.5T500-580q0 17-11.5 28.5T460-540h-40v40q0 17-11.5 28.5T380-460q-17 0-28.5-11.5T340-500v-40Zm40 220q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l224 224q11 11 11 28t-11 28q-11 11-28 11t-28-11L532-372q-30 24-69 38t-83 14Zm0-80q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z"/></svg>',
+		zoomSVG: '<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#ffffff"><path d="M340-540h-40q-17 0-28.5-11.5T260-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z"/></svg>',
 		padding: { top: 20, bottom: 20, left: 20, right: 20 },
 		wheelToZoom: true,
 		arrowPrev: false,

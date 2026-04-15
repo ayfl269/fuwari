@@ -5,6 +5,7 @@ export const th: Translation = {
 	[Key.home]: "หน้าแรก",
 	[Key.about]: "เกี่ยวกับ",
 	[Key.archive]: "คลัง",
+	[Key.links]: "ลิงก์",
 	[Key.search]: "ค้นหา",
 
 	[Key.tags]: "ป้ายกำกับ",
@@ -26,6 +27,9 @@ export const th: Translation = {
 
 	[Key.themeColor]: "สีของธีม",
 
+	[Key.disableBackground]: "Disable Background",
+	[Key.backgroundBlur]: "เบลอพื้นหลัง",
+
 	[Key.lightMode]: "สว่าง",
 	[Key.darkMode]: "มืด",
 	[Key.systemMode]: "ตามระบบ",
@@ -35,4 +39,8 @@ export const th: Translation = {
 	[Key.author]: "ผู้เขียน",
 	[Key.publishedAt]: "เผยแพร่เมื่อ",
 	[Key.license]: "สัญญาอนุญาต",
+
+	[Key.paginationPrevious]: "ก่อนหน้า",
+	[Key.paginationNext]: "ถัดไป",
+	[Key.paginationPage]: "หน้า {page}",
 };

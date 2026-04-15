@@ -3,10 +3,9 @@ import { getSortedPosts } from "@utils/content-utils";
 import { url } from "@utils/url-utils";
 import type { APIContext } from "astro";
 import MarkdownIt from "markdown-it";
-import sanitizeHtml from "sanitize-html";
 import { siteConfig } from "@/config";
 
-const parser = new MarkdownIt();
+const _parser = new MarkdownIt();
 
 function stripInvalidXmlChars(str: string): string {
 	return str.replace(
@@ -16,7 +15,7 @@ function stripInvalidXmlChars(str: string): string {
 	);
 }
 
-export async function GET(context: APIContext) {
+export async function GET(context: APIContext): Promise<Response> {
 	const blog = await getSortedPosts();
 
 	return rss({
@@ -26,15 +25,12 @@ export async function GET(context: APIContext) {
 		items: blog.map((post) => {
 			const content =
 				typeof post.body === "string" ? post.body : String(post.body || "");
-			const cleanedContent = stripInvalidXmlChars(content);
+			const _cleanedContent = stripInvalidXmlChars(content);
 			return {
 				title: post.data.title,
 				pubDate: post.data.published,
 				description: post.data.description || "",
 				link: url(`/posts/${post.slug}/`),
-				content: sanitizeHtml(parser.render(cleanedContent), {
-					allowedTags: sanitizeHtml.defaults.allowedTags.concat(["img"]),
-				}),
 			};
 		}),
 		customData: `<language>${siteConfig.lang}</language>`,

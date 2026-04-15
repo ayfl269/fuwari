@@ -1,6 +1,7 @@
 import {
 	AUTO_MODE,
 	DARK_MODE,
+	DEFAULT_BG_BLUR,
 	DEFAULT_THEME,
 	LIGHT_MODE,
 } from "@constants/constants.ts";
@@ -18,6 +19,20 @@ export function getHue(): number {
 	return stored ? Number.parseInt(stored, 10) : getDefaultHue();
 }
 
+export function getHideBackground(): boolean {
+	const stored = localStorage.getItem("hideBackground");
+	return stored ? stored === "true" : false;
+}
+
+export function getDefaultBackgroundBlur(): number {
+	return DEFAULT_BG_BLUR;
+}
+
+export function getBackgroundBlur(): number {
+	const stored = localStorage.getItem("backgroundBlur");
+	return stored ? Number.parseInt(stored, 10) : DEFAULT_BG_BLUR;
+}
+
 export function setHue(hue: number): void {
 	localStorage.setItem("hue", String(hue));
 	const r = document.querySelector(":root") as HTMLElement;
@@ -27,7 +42,50 @@ export function setHue(hue: number): void {
 	r.style.setProperty("--hue", String(hue));
 }
 
-export function applyThemeToDocument(theme: LIGHT_DARK_MODE) {
+export function setBackgroundBlur(blur: number): void {
+	if (blur === DEFAULT_BG_BLUR) {
+		localStorage.removeItem("backgroundBlur");
+	} else {
+		localStorage.setItem("backgroundBlur", String(blur));
+	}
+	const r = document.querySelector(":root") as HTMLElement;
+	if (!r) {
+		return;
+	}
+	r.style.setProperty("--bg-blur", `${blur}px`);
+}
+
+export function setHideBackground(hide: boolean): void {
+	localStorage.setItem("hideBackground", String(hide));
+
+	// Apply changes
+	const bgUrl = getComputedStyle(document.documentElement)
+		.getPropertyValue("--bg-url")
+		.trim();
+	const bgEnable = getComputedStyle(document.documentElement)
+		.getPropertyValue("--bg-enable")
+		.trim();
+
+	if (hide) {
+		document.body.classList.remove("bg-loaded");
+		document.documentElement.style.removeProperty("--card-bg");
+		document.documentElement.style.removeProperty("--float-panel-bg");
+	} else {
+		if (bgUrl && bgUrl !== "none" && bgEnable === "1") {
+			document.body.classList.add("bg-loaded");
+			document.documentElement.style.setProperty(
+				"--card-bg",
+				"var(--card-bg-transparent)",
+			);
+			document.documentElement.style.setProperty(
+				"--float-panel-bg",
+				"var(--float-panel-bg-transparent)",
+			);
+		}
+	}
+}
+
+export function applyThemeToDocument(theme: LIGHT_DARK_MODE): void {
 	switch (theme) {
 		case LIGHT_MODE:
 			document.documentElement.classList.remove("dark");

@@ -5,6 +5,7 @@ export const tr: Translation = {
 	[Key.home]: "Anasayfa",
 	[Key.about]: "Hakkında",
 	[Key.archive]: "Arşiv",
+	[Key.links]: "Bağlantılar",
 	[Key.search]: "Ara",
 
 	[Key.tags]: "Taglar",
@@ -26,6 +27,9 @@ export const tr: Translation = {
 
 	[Key.themeColor]: "Tema Rengi",
 
+	[Key.disableBackground]: "Disable Background",
+	[Key.backgroundBlur]: "Arka Plan Bulanıklığı",
+
 	[Key.lightMode]: "Aydınlık",
 	[Key.darkMode]: "Koyu",
 	[Key.systemMode]: "Sistem",
@@ -35,4 +39,8 @@ export const tr: Translation = {
 	[Key.author]: "Yazar",
 	[Key.publishedAt]: "Yayınlanma:",
 	[Key.license]: "Lisans",
+
+	[Key.paginationPrevious]: "Önceki",
+	[Key.paginationNext]: "Sonraki",
+	[Key.paginationPage]: "{page}. sayfa",
 };

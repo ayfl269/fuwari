@@ -5,6 +5,7 @@ export const en: Translation = {
 	[Key.home]: "Home",
 	[Key.about]: "About",
 	[Key.archive]: "Archive",
+	[Key.links]: "Links",
 	[Key.search]: "Search",
 
 	[Key.tags]: "Tags",
@@ -26,6 +27,9 @@ export const en: Translation = {
 
 	[Key.themeColor]: "Theme Color",
 
+	[Key.disableBackground]: "Disable Background",
+	[Key.backgroundBlur]: "Background Blur",
+
 	[Key.lightMode]: "Light",
 	[Key.darkMode]: "Dark",
 	[Key.systemMode]: "System",
@@ -35,4 +39,8 @@ export const en: Translation = {
 	[Key.author]: "Author",
 	[Key.publishedAt]: "Published at",
 	[Key.license]: "License",
+
+	[Key.paginationPrevious]: "Previous",
+	[Key.paginationNext]: "Next",
+	[Key.paginationPage]: "Page",
 };

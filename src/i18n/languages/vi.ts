@@ -5,6 +5,7 @@ export const vi: Translation = {
 	[Key.home]: "Trang chủ",
 	[Key.about]: "Giới thiệu",
 	[Key.archive]: "Kho bài",
+	[Key.links]: "Liên kết",
 	[Key.search]: "Tìm kiếm",
 
 	[Key.tags]: "Thẻ",
@@ -26,6 +27,9 @@ export const vi: Translation = {
 
 	[Key.themeColor]: "Màu giao diện",
 
+	[Key.disableBackground]: "Disable Background",
+	[Key.backgroundBlur]: "Làm mờ nền",
+
 	[Key.lightMode]: "Sáng",
 	[Key.darkMode]: "Tối",
 	[Key.systemMode]: "Hệ thống",
@@ -35,4 +39,8 @@ export const vi: Translation = {
 	[Key.author]: "Tác giả",
 	[Key.publishedAt]: "Đăng vào lúc",
 	[Key.license]: "Giấy phép bản quyền",
+
+	[Key.paginationPrevious]: "Trước",
+	[Key.paginationNext]: "Tiếp theo",
+	[Key.paginationPage]: "Trang {page}",
 };

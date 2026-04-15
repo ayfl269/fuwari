@@ -5,6 +5,7 @@ export const zh_TW: Translation = {
 	[Key.home]: "首頁",
 	[Key.about]: "關於",
 	[Key.archive]: "彙整",
+	[Key.links]: "連結",
 	[Key.search]: "搜尋",
 
 	[Key.tags]: "標籤",
@@ -26,6 +27,9 @@ export const zh_TW: Translation = {
 
 	[Key.themeColor]: "主題色",
 
+	[Key.disableBackground]: "禁用背景",
+	[Key.backgroundBlur]: "背景模糊",
+
 	[Key.lightMode]: "亮色",
 	[Key.darkMode]: "暗色",
 	[Key.systemMode]: "跟隨系統",
@@ -35,4 +39,8 @@ export const zh_TW: Translation = {
 	[Key.author]: "作者",
 	[Key.publishedAt]: "發佈於",
 	[Key.license]: "許可協議",
+
+	[Key.paginationPrevious]: "上一頁",
+	[Key.paginationNext]: "下一頁",
+	[Key.paginationPage]: "第 {page} 頁",
 };

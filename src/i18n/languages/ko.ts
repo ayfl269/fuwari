@@ -5,6 +5,7 @@ export const ko: Translation = {
 	[Key.home]: "홈",
 	[Key.about]: "소개",
 	[Key.archive]: "아카이브",
+	[Key.links]: "링크",
 	[Key.search]: "검색",
 
 	[Key.tags]: "태그",
@@ -26,6 +27,9 @@ export const ko: Translation = {
 
 	[Key.themeColor]: "테마 색상",
 
+	[Key.disableBackground]: "배경 비활성화",
+	[Key.backgroundBlur]: "배경 흐림",
+
 	[Key.lightMode]: "밝은 모드",
 	[Key.darkMode]: "어두운 모드",
 	[Key.systemMode]: "시스템 모드",
@@ -35,4 +39,8 @@ export const ko: Translation = {
 	[Key.author]: "저자",
 	[Key.publishedAt]: "게시일",
 	[Key.license]: "라이선스",
+
+	[Key.paginationPrevious]: "이전",
+	[Key.paginationNext]: "다음",
+	[Key.paginationPage]: "{page}페이지",
 };

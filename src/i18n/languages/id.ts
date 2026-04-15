@@ -5,6 +5,7 @@ export const id: Translation = {
 	[Key.home]: "Beranda",
 	[Key.about]: "Tentang",
 	[Key.archive]: "Arsip",
+	[Key.links]: "Tautan",
 	[Key.search]: "Cari",
 
 	[Key.tags]: "Tag",
@@ -26,6 +27,9 @@ export const id: Translation = {
 
 	[Key.themeColor]: "Warna Tema",
 
+	[Key.disableBackground]: "Disable Background",
+	[Key.backgroundBlur]: "Blur Latar Belakang",
+
 	[Key.lightMode]: "Terang",
 	[Key.darkMode]: "Gelap",
 	[Key.systemMode]: "Sistem",
@@ -35,4 +39,8 @@ export const id: Translation = {
 	[Key.author]: "Penulis",
 	[Key.publishedAt]: "Diterbitkan pada",
 	[Key.license]: "Lisensi",
+
+	[Key.paginationPrevious]: "Sebelumnya",
+	[Key.paginationNext]: "Selanjutnya",
+	[Key.paginationPage]: "Halaman {page}",
 };

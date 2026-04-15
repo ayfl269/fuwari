@@ -5,6 +5,7 @@ export const es: Translation = {
 	[Key.home]: "Inicio",
 	[Key.about]: "Sobre mí",
 	[Key.archive]: "Archivo",
+	[Key.links]: "Enlaces",
 	[Key.search]: "Buscar",
 
 	[Key.tags]: "Etiquetas",
@@ -26,6 +27,9 @@ export const es: Translation = {
 
 	[Key.themeColor]: "Color del tema",
 
+	[Key.disableBackground]: "Disable Background",
+	[Key.backgroundBlur]: "Background Blur",
+
 	[Key.lightMode]: "Claro",
 	[Key.darkMode]: "Oscuro",
 	[Key.systemMode]: "Sistema",
@@ -35,4 +39,8 @@ export const es: Translation = {
 	[Key.author]: "Autor",
 	[Key.publishedAt]: "Publicado el",
 	[Key.license]: "Licencia",
+
+	[Key.paginationPrevious]: "Anterior",
+	[Key.paginationNext]: "Siguiente",
+	[Key.paginationPage]: "Página {page}",
 };
