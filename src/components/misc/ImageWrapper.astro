@@ -31,17 +31,29 @@ let img;
 if (isLocal) {
 	const files = import.meta.glob<ImageMetadata>("../../**", {
 		import: "default",
+		eager: true,
 	});
 	let normalizedPath = path
 		.normalize(path.join("../../", basePath, src))
 		.replace(/\\/g, "/");
-	const file = files[normalizedPath];
+	let file = files[normalizedPath];
 	if (!file) {
-		console.error(
-			`\n[ERROR] Image file not found: ${normalizedPath.replace("../../", "src/")}`,
-		);
+		// Try with leading slash
+		file = files["/" + normalizedPath];
 	}
-	img = await file();
+	if (!file) {
+		// Fallback: search for the file by filename
+		const srcName = src.replace(/^\.?\/+/, "");
+		const matchingKeys = Object.keys(files).filter(k => k.endsWith("/" + srcName) || k.endsWith(srcName));
+		if (matchingKeys.length > 0) {
+			file = files[matchingKeys[0]];
+		} else {
+			console.error(
+				`\n[ERROR] Image file not found: ${normalizedPath.replace("../../", "src/")}`,
+			);
+		}
+	}
+	img = file;
 }
 
 const imageClass =

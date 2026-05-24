@@ -16,7 +16,7 @@ export async function GET(context: APIContext): Promise<Response> {
 				title: post.data.title,
 				pubDate: post.data.published,
 				description: post.data.description || "",
-				link: url(`/posts/${post.slug}/`),
+				link: url(`/posts/${post.id}/`),
 			};
 		}),
 		customData: `<language>${siteConfig.lang}</language>`,

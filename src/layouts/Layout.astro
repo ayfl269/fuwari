@@ -83,13 +83,26 @@ if (bgSrc) {
 	if (isLocal) {
 		const files = import.meta.glob<ImageMetadata>("../**", {
 			import: "default",
+			eager: true,
 		});
-		const normalizedPath = path
+		let normalizedPath = path
 			.normalize(path.join("../", bgSrc))
 			.replace(/\\/g, "/");
-		const file = files[normalizedPath];
+		let file = files[normalizedPath];
+		if (!file) {
+			// Try with leading slash
+			file = files["/" + normalizedPath];
+		}
+		if (!file) {
+			// Fallback: search for the file by filename
+			const srcName = bgSrc.replace(/^\.?\/+/, "");
+			const matchingKeys = Object.keys(files).filter(k => k.endsWith("/" + srcName) || k.endsWith(srcName));
+			if (matchingKeys.length > 0) {
+				file = files[matchingKeys[0]];
+			}
+		}
 		if (file) {
-			const img = (await file()) as ImageMetadata;
+			const img = file as ImageMetadata;
 			const optimized = await getImage({ src: img });
 			resolvedBgUrl = `url(${optimized.src})`;
 		} else {
